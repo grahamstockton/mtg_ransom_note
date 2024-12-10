@@ -15,9 +15,9 @@ from ransom_note import FragmentRecord
 TRIE_FILE_NAME: str = "src/trie.marisa"
 PICKLE_DATA_FILE_NAME: str = "src/data.pkl"
 RAW_DATA_FILE_NAME: str = "src/data.json"
-INPUT_STR: str = "pookie I made an app so I can communicate like this now"
-MATCH_LIMIT: int = 10
-NUM_TRIES_MATCHING: int = 3
+INPUT_STR: str = "pls chet"
+MATCH_LIMIT: int = 20
+NUM_TRIES_MATCHING: int = 5
 CARD_FILE_NAME: str = "src/base.jpg"
 TEXT_LINE_WIDTH: int = 500
 TEXT_LINE_HEIGHT: int = 20

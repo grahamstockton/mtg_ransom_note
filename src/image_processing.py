@@ -9,6 +9,8 @@ PADDING_TOP_DEFAULT: int = 5
 PADDING_BOTTOM_DEFAULT: int = 3
 PADDING_LEFT_DEFAULT: int = 2
 PADDING_RIGHT_DEFAULT: int = 2
+MAX_WORD_WIDTH_DEFAULT: int = 250
+MAX_WORD_HEIGHT_DEFAULT: int = 50
 
 # downloads an image from the scryfall url
 # may not work for links from other websites
@@ -22,7 +24,9 @@ def find_word_in_image(word: str, img: ImageFile,
                        padding_top=PADDING_TOP_DEFAULT,
                        padding_bottom=PADDING_BOTTOM_DEFAULT,
                        padding_left=PADDING_LEFT_DEFAULT,
-                       padding_right=PADDING_RIGHT_DEFAULT) -> ImageFile:
+                       padding_right=PADDING_RIGHT_DEFAULT,
+                       max_word_width=MAX_WORD_WIDTH_DEFAULT,
+                       max_word_height=MAX_WORD_HEIGHT_DEFAULT) -> ImageFile:
     # get boxes for all of the letters
     boxes = pytesseract.image_to_boxes(img, "eng")
     box_tuples = [line.split() for line in boxes.splitlines()]
@@ -36,6 +40,11 @@ def find_word_in_image(word: str, img: ImageFile,
         top = h - int(box_tuples[start_pos][4]) - padding_top
         right = int(box_tuples[end_pos][3]) + padding_right
         bottom = h - int(box_tuples[end_pos][2]) + padding_bottom
+
+        # validate cutting size
+        assert(right - left < max_word_width)
+        assert(bottom - top < max_word_height)
+
         return img.crop((left, top, right, bottom))
     except Exception as e:
         raise Exception("Error finding word in image :{}".format(word), e)
